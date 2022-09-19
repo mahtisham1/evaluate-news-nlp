@@ -2,7 +2,7 @@ const sentimentData = {}
 
 const dotenv = require('dotenv');
 dotenv.config();
-// console.log(process.env)
+console.log(process.env)
 
 var path = require('path')
 const express = require('express')
