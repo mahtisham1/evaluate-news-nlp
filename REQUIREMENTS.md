@@ -10,8 +10,7 @@
 
 - [ ] Have a minimum of one form field
 
-- [ ] Make one request to the Aylien API
-
+- [ ] Make one request to the meaningcloud.com
 - [ ] Use Sass for styling
 
 - [ ] Minify js and styles in the production environment
@@ -20,4 +19,3 @@
 
 - [ ] Be able to show content offline
 
-All of these requirements are explained throughout the course. Specifics on setting up the Aylien API are found in the README file of this repo.
