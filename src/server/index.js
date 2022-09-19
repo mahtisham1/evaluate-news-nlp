@@ -1,5 +1,8 @@
+const sentimentData = {}
+
 const dotenv = require('dotenv');
 dotenv.config();
+// console.log(process.env)
 
 var path = require('path')
 const express = require('express')
@@ -13,7 +16,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 const cors = require('cors');
-app.use(cors());
+app.use(cors({
+  origin: '*'
+}));
 
 app.use(express.static('dist'))
 
@@ -25,15 +30,24 @@ app.get('/', function (req, res) {
 })
 
 // designates what port the app will listen to for incoming requests
-app.listen(8080, function () {
-    console.log('Example app listening on port 8080!')
-})
+const port = 4000;
+const server = app.listen(port, listening);
+ function listening(){
+    console.log(`running on localhost: ${port}`);
+  };
 
 app.get('/test', function (req, res) {
     res.send(mockAPIResponse)
 })
 
-// GET route
+const DataArray = [];
+
+app.get('/all', getData);
+
+function getData (req, res) {
+  res.send(DataArray);
+  console.log(DataArray);
+};
 
 
 app.post('/add', addData);
@@ -41,12 +55,12 @@ app.post('/add', addData);
 function addData(req,res){
   console.log(req.body);
   newEntry = {
-    polarity: req.body.polarity,
+    model: req.body.model,
     agreement: req.body.agreement,
     subjectivity: req.body.subjectivity,
     confidence: req.body.confidence,
     irony: req.body.irony
   };
-  mockAPIResponse.push(newEntry);
+  DataArray.push(newEntry);
   res.send(newEntry)
 }
