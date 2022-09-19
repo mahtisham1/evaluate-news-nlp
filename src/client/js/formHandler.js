@@ -1,27 +1,25 @@
 import { isValidUrl } from './urlChecker'
-debugger
-const apiKey = '28f90c38c174f86b89a5ab005d134e30&units=imperial';
 
 function handleSubmit(event) {
     event.preventDefault()
-    debugger
     let isValid = isValidUrl(document.getElementById('url').value)
 
-    let baseURL = 'https://api.meaningcloud.com/sentiment-2.1'
+    const apiKey = '28f90c38c174f86b89a5ab005d134e30&units=imperial’';
+    let baseURL = `https://api.meaningcloud.com/sentiment-2.1?key=${apiKey}&&url=${isValid}`
+    console.log("::: Form Submitted :::")
 
-    getData(baseURL, apiKey)
-    .then(async function(data){
-      data = await postData('/add',{polarity: data.polarity, agreement: data.agreement, subjectivity: data.subjectivity, confidence: data.confidence, irony: data.irony});
+    getData(baseURL,isValid, apiKey)
+    .then(function(data){
+      postData('/add',{model: data.model, agreement: data.agreement, subjectivity: data.subjectivity, confidence: data.confidence, irony: data.irony});
       updateUI(data)
     })
   }
 
-  const getData = async (url,key)=>{
-    const res = await fetch(url+key)
+  const getData = async (url,validate,key)=>{
+    const res = await fetch(url+validate+key)
 
     try {
       const data = await res.json();
-      console.log(data);
 
       return data;
     } catch(error) {
@@ -30,10 +28,9 @@ function handleSubmit(event) {
   }
 
   const postData = async (url = '', data = {}) =>{
-    console.log(data)
     const res = await fetch(url, {
       method: 'POST',
-      mode: 'cors',
+      mode: 'no-cors',
       cache: 'no-cache',
       credentials: 'same-origin',
       headers: {
@@ -46,11 +43,11 @@ function handleSubmit(event) {
   }
 
   const updateUI = (data) => {
-      document.getElementById('polarity').innerHTML = `polarity: ${data.date}`;
-      document.getElementById('agreement').innerHTML = `agreement: ${tempConvert}`;
-      document.getElementById('subjectivity').innerHTML = `subjectivity: ${data.city}`;
-      document.getElementById('confidence').innerHTML = `confidence: ${data.feelings}`;
-      document.getElementById('irony').innerHTML = `irony: ${data.feelings}`;
+      document.getElementById('model').innerHTML = `Model: ${data.model}`;
+      document.getElementById('agreement').innerHTML = `Agreement: ${data.agreement}`;
+      document.getElementById('subjectivity').innerHTML = `Subjectivity: ${data.subjectivity}`;
+      document.getElementById('confidence').innerHTML = `Confidence: ${data.confidence}`;
+      document.getElementById('irony').innerHTML = `Irony: ${data.irony}`;
 }
 
 export { handleSubmit }
